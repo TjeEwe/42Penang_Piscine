@@ -89,14 +89,17 @@ int	rush_recursive(int **board, int grid, int **clues, int pos)
 	val = 1;
 	while (val <= grid)
 	{
+		// Check for uniqueness of value for col and row
 		if (is_in_row(board, grid, row, val) != 1
 			&& is_in_col(board, grid, col, val) != 1)
 		{
 			board[row][col] = val;
+			//Check for clues(visibility) only if the row/col is completed
 			if ((row != grid - 1 || check_col_clues(board, grid, clues, col))
 				&& (col != grid - 1 || check_row_clues(board, grid, clues, row))
 				&& rush_recursive(board, grid, clues, pos + 1))
 				return (1);
+			// If one of condition failed, reset the cell's value
 			board[row][col] = 0;
 		}
 		val ++;
